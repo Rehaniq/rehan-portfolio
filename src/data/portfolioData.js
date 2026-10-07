@@ -11,7 +11,7 @@ export const personalInfo = {
 };
 
 export const stats = [
-  { num: "0.8", label: "Year Exp." },
+  { num: "1.2", label: "Year Exp." },
   { num: "3", label: "Projects" },
   { num: "5+", label: "Skills" },
 ];
@@ -24,8 +24,8 @@ export const aboutFacts = [
   },
   {
     icon: "💼",
-    title: "WordPress Developer",
-    desc: "5 months of hands-on client work experience",
+    title: "Junior Web Developer",
+    desc: " hands-on client work experience",
   },
   {
     icon: "📚",
@@ -60,16 +60,16 @@ export const skills = [
 
 export const experience = [
   {
-    date: "2025 – Present",
-    role: "Full Stack Developer (Self-Study & Projects)",
-    company: "Independent · Uppsala, Sweden",
-    desc: "Actively building full-stack projects using React and Node.js, deepening expertise after completing a comprehensive bootcamp. Focused on developing a strong portfolio and contributing to open source. Open to internship and junior developer opportunities in Sweden.",
+    date: " Sep 2025 – Present",
+    role: "Junior Web Developer",
+    company: "Weaverex · Remote",
+    desc: "Develop and maintain responsive e-commerce applications using JavaScript, React.js, HTML5, and CSS3; implement client-requested features, troubleshoot issues, improve user experience, and collaborate with remote teams to deliver projects on time.",
   },
   {
-    date: "2024 – 2025",
-    role: "WordPress Developer",
-    company: "Web Agency · Pakistan",
-    desc: "Developed and maintained client websites using WordPress, custom themes, and plugins. Collaborated with design teams to deliver pixel-perfect, responsive web experiences. Managed site performance, updates, and client communications over a 5-month period.",
+    date: "Jan 2025 – April 2025",
+    role: "Web Developer Intern",
+    company: "Weaverex · On-site, Pakistan",
+    desc: "Gained hands-on experience developing and maintaining responsive websites and e-commerce projects, customizing layouts and content, creating responsive pages.",
   },
 ];
 
