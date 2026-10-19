@@ -23,7 +23,7 @@ export default function About({ facts }) {
         <div className="section-header">
           <div className="section-tag">Who I Am</div>
           <h2 className="section-title">
-            A developer with a story<br />worth telling
+            Learning, building, and getting<br />better every day
           </h2>
         </div>
 
