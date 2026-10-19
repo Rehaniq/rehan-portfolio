@@ -100,12 +100,12 @@ export const projects = [
   },
   {
     emoji: "🌤️",
-    label: "Frontend · API",
+    label: "Full-Stack · API",
     title: "Weather Dashboard",
     desc: "A sleek weather app using a public API to display real-time forecasts with animated UI and location search.",
-    tags: ["React", "REST API", "CSS3"],
-    demo: null,
-    github: null,
+    tags: ["React", "Node.js", "Express", "PostgreSQL", "REST API", "CSS3"],
+    demo: "https://weather-app-green-chi-18.vercel.app/",
+    github: "https://github.com/Rehaniq/Weather-app/",
   },
   {
     emoji: "💰",
