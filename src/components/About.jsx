@@ -30,20 +30,15 @@ export default function About({ facts }) {
         <div className="about__grid">
           <div className="about__text fade-up" ref={textRef}>
             <p>
-              I'm Rehan Iqbal, a software engineer who graduated from the
-              University of Faisalabad in 2024. My journey into web development
-              began professionally as a WordPress developer, where I gained
-              real-world experience building and maintaining websites for clients.
+              I'm Rehan Iqbal, a Junior Full Stack Developer based in Uppsala, Sweden.
+              I have a BSc in Software Engineering from the University of Faisalabad
+              and work at Weaverex, where I build and maintain web applications with
+              React, JavaScript, HTML, and CSS.
             </p>
-            <blockquote className="about__highlight">
-              "WordPress was my starting point — full-stack development is where I'm headed."
-            </blockquote>
             <p>
-              After completing Angela Yu's acclaimed Full Stack Development course
-              on Udemy, I deepened my skills in React, Node.js, and modern web
-              technologies. In September 2025, I relocated to Uppsala, Sweden —
-              a new chapter that has only strengthened my drive to build a
-              meaningful career in tech.
+              I started with WordPress and frontend work, then moved into full stack
+              development with Node.js, Express, and PostgreSQL. I'm also learning Swedish and
+              looking for a junior full stack or frontend role.
             </p>
           </div>
 
