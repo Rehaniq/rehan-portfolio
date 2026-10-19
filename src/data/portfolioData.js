@@ -91,12 +91,12 @@ export const education = [
 export const projects = [
   {
     emoji: "🗂️",
-    label: "Full Stack App",
-    title: "Task Manager App",
+    label: "ShopHub – Full-Stack",
+    title: "E-commerce Platform",
     desc: "A full-stack task management application with user authentication, real-time updates, and a clean responsive UI.",
-    tags: ["React", "Node.js", "MongoDB"],
+    tags: ["React", "Node.js", "PostgreSQL NeonDB", "REST API"],
     demo: null,
-    github: null,
+    github: " https://github.com/Rehaniq/shophub",
   },
   {
     emoji: "🌤️",
