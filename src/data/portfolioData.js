@@ -95,7 +95,7 @@ export const projects = [
     title: "E-commerce Platform",
     desc: "A full-stack task management application with user authentication, real-time updates, and a clean responsive UI.",
     tags: ["React", "Node.js", "PostgreSQL NeonDB", "REST API"],
-    demo: null,
+    demo: "https://shophub-two-chi.vercel.app/",
     github: " https://github.com/Rehaniq/shophub",
   },
   {
