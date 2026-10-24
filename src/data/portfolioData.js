@@ -110,10 +110,10 @@ export const projects = [
   {
     emoji: "💰",
     label: "Full Stack · Personal",
-    title: "Expense Tracker",
-    desc: "A personal finance tracker that helps users log expenses, set budgets, and visualize spending patterns over time.",
-    tags: ["React", "Node.js", "MySQL"],
+    title: "Travel Tracker App",
+    desc: "A personal travel journal app that allows users to log their trips, view them on a map, and share experiences with friends.",
+    tags: ["React", "Node.js"],
     demo: null,
-    github: null,
+    github: "https://github.com/Rehaniq/Traveller-Tacker-App",
   },
 ];
