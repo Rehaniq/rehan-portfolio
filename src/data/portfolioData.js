@@ -90,13 +90,13 @@ export const education = [
 
 export const projects = [
   {
-    emoji: "🗂️",
+    emoji: "🛒",
     label: "ShopHub – Full-Stack",
     title: "E-commerce Platform",
-    desc: "A full-stack task management application with user authentication, real-time updates, and a clean responsive UI.",
-    tags: ["React", "Node.js", "PostgreSQL NeonDB", "REST API"],
+    desc: "A full-stack online shop with product search and filters, a shopping cart, JWT login, checkout with database transactions, order history, an admin panel with an AI description writer, and a responsive UI.",
+    tags: ["React", "Node.js", "Express", "PostgreSQL", "JWT", "REST API"],
     demo: "https://shophub-two-chi.vercel.app/",
-    github: " https://github.com/Rehaniq/shophub",
+    github: "https://github.com/Rehaniq/shophub",
   },
   {
     emoji: "🌤️",
