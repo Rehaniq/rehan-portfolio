@@ -1,78 +1,48 @@
-# Rehan Iqbal — Personal Portfolio
+# Rehan Iqbal — Portfolio
 
-My personal developer portfolio built with React and Vite. Clean, minimal, and fully responsive.
+My personal developer portfolio. I built it to show my projects and experience, and to let employers contact me directly.
 
-## 🛠️ Built With
+## What it includes
 
-- **React 18** — Component-based UI
-- **Vite** — Fast development and build tool
-- **CSS3** — Custom properties, animations, responsive layout
-- **Google Fonts** — DM Serif Display + DM Sans
+- Sections for About, Skills, Experience, Education, Projects and Contact
+- Smooth animations made with GSAP
+- A skills bar that scrolls continuously from right to left
+- A contact form that sends a message to my email
+- A responsive layout that works on phones, tablets and desktops
 
-## 📁 Project Structure
+## Built with
 
-```
-rehan-portfolio/
-├── index.html
-├── package.json
-├── vite.config.js
-└── src/
-    ├── main.jsx
-    ├── App.jsx
-    ├── data/
-    │   └── portfolioData.js
-    ├── hooks/
-    │   └── index.js
-    ├── components/
-    │   ├── Navbar.jsx
-    │   ├── Hero.jsx
-    │   ├── About.jsx
-    │   └── sections.jsx
-    └── styles/
-        ├── global.css
-        ├── Navbar.css
-        ├── Hero.css
-        └── components.css
-```
+- **React** for the page components
+- **Vite** to run and build the project
+- **GSAP** for animations
+- **CSS** for all styling, with no UI library
 
-## 🚀 Running Locally
+## Run it
 
 ```bash
-# Install dependencies
 npm install
-
-# Start dev server
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) in your browser.
+Then open http://localhost:5173. To build for production, run `npm run build`.
 
-```bash
-# Build for production
-npm run build
+## How it is organised
+
+```
+src/
+├── data/portfolioData.js   all my content (text, skills, projects)
+├── components/             one file per section
+└── styles/                 CSS files
 ```
 
-## 🎨 Customization
+I keep all the content in one data file, so I can update my details without touching the layout code.
 
-Content is managed from a single file — `src/data/portfolioData.js`.
-Update your name, links, skills, experience, and projects all from there.
+## The contact form
 
-To change the color scheme, edit the CSS variables in `src/styles/global.css`:
+The form sends the visitor's message to my inbox through FormSubmit, a free service, so I don't need my own server. If sending fails, the visitor gets a button to email me directly instead.
 
-```css
-:root {
-  --accent: #c8602a;
-  --ink: #1a1a18;
-  --off-white: #f7f6f2;
-}
-```
+## Contact
 
-## 📬 Contact
-
-- **Email**: Thankforjoinme@gmail.com
-- **LinkedIn**: [linkedin.com/in/rehan-iqbal-390480325](https://www.linkedin.com/in/rehan-iqbal-390480325/)
-- **GitHub**: [github.com/Rehaniq](https://github.com/Rehaniq)
-
----
-
-Designed and built by Rehan Iqbal · Uppsala, Sweden · 2026
+- Email: thankforjoinme@gmail.com
+- LinkedIn: (https://www.linkedin.com/in/rehan-iqbal-390480325/)
+- GitHub: (https://github.com/Rehaniq)

@@ -1,5 +1,6 @@
 import Navbar from "./components/Navbar.jsx";
 import Hero from "./components/Hero.jsx";
+import ExperiencePolish from "./components/ExperiencePolish.jsx";
 import About from "./components/About.jsx";
 import {
   Skills,
@@ -26,6 +27,7 @@ import "./styles/components.css";
 export default function App() {
   return (
     <>
+      <ExperiencePolish />
       <Navbar name={personalInfo.name} />
 
       <main>

@@ -5,31 +5,32 @@ function FactItem({ icon, title, desc }) {
   const ref = useScrollReveal();
   return (
     <div className="fact-item fade-up" ref={ref}>
-      <div className="fact-item__icon">{icon}</div>
+      <div className="fact-item_icon">{icon}</div>
       <div>
-        <div className="fact-item__title">{title}</div>
-        <div className="fact-item__desc">{desc}</div>
+        <div className="fact-item_title">{title}</div>
+        <div className="fact-item_desc">{desc}</div>
       </div>
     </div>
   );
 }
 
 export default function About({ facts }) {
+  const headerRef = useScrollReveal();
   const textRef = useScrollReveal();
 
   return (
     <section className="section section--alt" id="about">
       <div className="container">
-        <div className="section-header">
+        <div className="section-header fade-up" ref={headerRef}>
           <div className="section-tag">Who I Am</div>
           <h2 className="section-title">
             Learning, building, and getting<br />better every day
           </h2>
         </div>
 
-        <div className="about__grid">
-          <div className="about__text fade-up" ref={textRef}>
-            <p>
+        <div className="about_grid">
+          <div className="about_text fade-up" ref={textRef}>
+            <p className="about_lead">
               I'm Rehan Iqbal, a Junior Full Stack Developer based in Uppsala, Sweden.
               I have a BSc in Software Engineering from the University of Faisalabad
               and work at Weaverex, where I build and maintain web applications with
@@ -40,9 +41,13 @@ export default function About({ facts }) {
               development with Node.js, Express, and PostgreSQL. I'm also learning Swedish and
               looking for a junior full stack or frontend role.
             </p>
+            <div className="about_signature">
+              <span className="about_signature-line" />
+              <span>Curious by nature. Focused on thoughtful work.</span>
+            </div>
           </div>
 
-          <div className="about__facts">
+          <div className="about_facts">
             {facts.map((fact) => (
               <FactItem key={fact.title} {...fact} />
             ))}

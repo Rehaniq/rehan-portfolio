@@ -3,7 +3,7 @@ export const personalInfo = {
   name: "Rehan Iqbal",
   title: "Full Stack Developer",
   location: "Uppsala, Sweden",
-  email: "Thankforjoinme@gmail.com",
+  email: "thankforjoinme@gmail.com",
   linkedin: "https://www.linkedin.com/in/rehan-iqbal-390480325/",
   github: "https://github.com/Rehaniq",
   bio: "A software engineer from Pakistan, Living in sweden and looking for a job. Passionate about crafting clean, functional web experiences with React and Node.js — combining a good academic foundation with hands-on development skills.",
@@ -90,7 +90,7 @@ export const education = [
 
 export const projects = [
   {
-    emoji: "🛒",
+    icon: "cart",
     label: "ShopHub – Full-Stack",
     title: "E-commerce Platform",
     desc: "A full-stack online shop with product search and filters, a shopping cart, JWT login, checkout with database transactions, order history, an admin panel with an AI description writer, and a responsive UI.",
@@ -99,7 +99,7 @@ export const projects = [
     github: "https://github.com/Rehaniq/shophub",
   },
   {
-    emoji: "🌤️",
+    icon: "weather",
     label: "Full-Stack · API",
     title: "Weather Dashboard",
     desc: "A sleek weather app using a public API to display real-time forecasts with animated UI and location search.",
@@ -108,7 +108,7 @@ export const projects = [
     github: "https://github.com/Rehaniq/Weather-app/",
   },
   {
-    emoji: "💰",
+    icon: "map",
     label: "Full Stack · Personal",
     title: "Travel Tracker App",
     desc: "A personal travel journal app that allows users to log their trips, view them on a map, and share experiences with friends.",
