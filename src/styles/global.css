@@ -29,7 +29,6 @@ html {
   scroll-behavior: auto;
   scroll-padding-top: var(--header-offset);
   -webkit-text-size-adjust: 100%;
-  scroll-behavior: auto;
 }
 
 body {
@@ -194,7 +193,7 @@ p {
 
 @media (prefers-reduced-motion: reduce) {
   html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
   }
 
   *,
