@@ -6,48 +6,30 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-// Reliable responsive section navigation
 export function scrollToSection(id) {
   const target = document.getElementById(id);
-
   if (!target) return;
 
   const reduceMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)"
   ).matches;
 
-  // Return to the top
   if (id === "home" || id === "top") {
     window.scrollTo({
       top: 0,
       behavior: reduceMotion ? "auto" : "smooth",
     });
-
     return;
   }
 
-  // Calculate the actual navbar height
-  const navbar = document.querySelector(".navbar");
+  const navbarHeight =
+    document.querySelector(".navbar")?.getBoundingClientRect().height || 0;
 
-  const navbarHeight = navbar
-    ? navbar.getBoundingClientRect().height
-    : 0;
-
-  // Calculate the target's current document position
   const targetPosition =
     window.scrollY + target.getBoundingClientRect().top;
 
-  // Leave a small gap below the fixed navbar
-  const offset = navbarHeight + 12;
-
-  const destination = Math.max(
-    0,
-    targetPosition - offset
-  );
-
-  // Use native scrolling for mobile and desktop
   window.scrollTo({
-    top: destination,
+    top: Math.max(0, targetPosition - navbarHeight - 12),
     behavior: reduceMotion ? "auto" : "smooth",
   });
 }
@@ -65,7 +47,6 @@ export default function ExperiencePolish() {
         "(hover: hover) and (pointer: fine)"
       ).matches;
 
-      // Reading progress indicator
       const progress = document.querySelector(
         ".reading-progress_bar"
       );
@@ -84,7 +65,6 @@ export default function ExperiencePolish() {
         });
       }
 
-      // Custom cursor (desktop only)
       if (!finePointer || reduceMotion) return;
 
       const cursor = root.current?.querySelector(
@@ -109,35 +89,23 @@ export default function ExperiencePolish() {
       };
 
       const onOver = (event) => {
-        if (
-          event.target.closest(
-            "a, button, input, textarea, select"
-          )
-        ) {
+        if (event.target.closest("a, button, input, textarea, select")) {
           cursor.classList.add("is-hovering");
         }
       };
 
       const onOut = (event) => {
-        if (
-          event.target.closest(
-            "a, button, input, textarea, select"
-          )
-        ) {
+        if (event.target.closest("a, button, input, textarea, select")) {
           cursor.classList.remove("is-hovering");
         }
       };
 
-      window.addEventListener("pointermove", onMove, {
-        passive: true,
-      });
-
+      window.addEventListener("pointermove", onMove, { passive: true });
       document.addEventListener("pointerover", onOver);
       document.addEventListener("pointerout", onOut);
 
       return () => {
         window.removeEventListener("pointermove", onMove);
-
         document.removeEventListener("pointerover", onOver);
         document.removeEventListener("pointerout", onOut);
       };
@@ -146,11 +114,7 @@ export default function ExperiencePolish() {
   );
 
   return (
-    <div
-      className="experience-polish"
-      ref={root}
-      aria-hidden="true"
-    >
+    <div className="experience-polish" ref={root} aria-hidden="true">
       <div className="reading-progress">
         <span className="reading-progress_bar" />
       </div>

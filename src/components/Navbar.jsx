@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -29,14 +28,11 @@ export default function Navbar({ name }) {
 
   const active = useActiveSection(SECTION_IDS);
 
-  // Navbar entrance animation
   useGSAP(
     () => {
-      const reduceMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-      ).matches;
-
-      if (reduceMotion) return;
+      if (
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ) return;
 
       gsap.from(".navbar_inner", {
         y: -18,
@@ -57,10 +53,8 @@ export default function Navbar({ name }) {
     { scope: navRef }
   );
 
-  // Mobile menu animation
   useEffect(() => {
     const menu = menuRef.current;
-
     if (!menu) return;
 
     menuTimeline.current?.kill();
@@ -79,12 +73,13 @@ export default function Navbar({ name }) {
 
       return;
     }
+
     if (window.innerWidth > 768) {
       gsap.set(menu, {
         clearProps: "height,opacity,visibility,pointerEvents,transform",
       });
 
-      gsap.set(menu.querySelectorAll(".navbar_mobile-link"), {
+      gsap.set(links, {
         clearProps: "transform,opacity,visibility",
       });
 
@@ -123,11 +118,7 @@ export default function Navbar({ name }) {
         .fromTo(
           menu,
           { height: 0, autoAlpha: 0 },
-          {
-            height: "auto",
-            autoAlpha: 1,
-            duration: 0.32,
-          }
+          { height: "auto", autoAlpha: 1, duration: 0.32 }
         )
         .fromTo(
           links,
@@ -171,27 +162,17 @@ export default function Navbar({ name }) {
       });
     }
 
-    return () => {
-      menuTimeline.current?.kill();
-    };
+    return () => menuTimeline.current?.kill();
   }, [menuOpen]);
 
-  // Scroll and keyboard events
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 24);
-    };
+    const onScroll = () => setScrolled(window.scrollY > 24);
 
     const onKeyDown = (event) => {
-      if (event.key === "Escape") {
-        setMenuOpen(false);
-      }
+      if (event.key === "Escape") setMenuOpen(false);
     };
 
-    window.addEventListener("scroll", onScroll, {
-      passive: true,
-    });
-
+    window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("keydown", onKeyDown);
 
     onScroll();
@@ -202,22 +183,16 @@ export default function Navbar({ name }) {
     };
   }, []);
 
-  // Close mobile menu when resizing to desktop
   useEffect(() => {
     const closeOnDesktop = () => {
-      if (window.innerWidth > 768) {
-        setMenuOpen(false);
-      }
+      if (window.innerWidth > 768) setMenuOpen(false);
     };
 
     window.addEventListener("resize", closeOnDesktop);
 
-    return () => {
-      window.removeEventListener("resize", closeOnDesktop);
-    };
+    return () => window.removeEventListener("resize", closeOnDesktop);
   }, []);
 
-  // Navigation handler
   const scrollTo = (id) => {
     setMenuOpen(false);
     scrollToSection(id);
@@ -249,9 +224,7 @@ export default function Navbar({ name }) {
         <button
           className={`navbar_hamburger${menuOpen ? " is-open" : ""}`}
           onClick={() => setMenuOpen((open) => !open)}
-          aria-label={
-            menuOpen ? "Close navigation menu" : "Open navigation menu"
-          }
+          aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
           aria-expanded={menuOpen}
           aria-controls="primary-navigation"
           type="button"
@@ -270,9 +243,7 @@ export default function Navbar({ name }) {
               <a
                 href={`#${href}`}
                 className={active === href ? "active" : ""}
-                aria-current={
-                  active === href ? "location" : undefined
-                }
+                aria-current={active === href ? "location" : undefined}
                 onClick={(event) => {
                   event.preventDefault();
                   scrollTo(href);
