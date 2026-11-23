@@ -16,23 +16,20 @@ const NAV_LINKS = [
   { href: "projects", label: "Projects" },
 ];
 
-const SECTION_IDS = [
-  ...NAV_LINKS.map(({ href }) => href),
-  "contact",
-];
+const SECTION_IDS = [...NAV_LINKS.map(({ href }) => href), "contact"];
 
 export default function Navbar({ name }) {
   const navRef = useRef(null);
   const menuRef = useRef(null);
   const menuTimeline = useRef(null);
-  const pendingNavigation = useRef(null);
+  const initialMenuRender = useRef(true);
 
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const active = useActiveSection(SECTION_IDS);
 
-  // Navbar entrance animation.
+  // Navbar entrance animation
   useGSAP(
     () => {
       const reduceMotion = window.matchMedia(
@@ -60,95 +57,122 @@ export default function Navbar({ name }) {
     { scope: navRef }
   );
 
-  // Mobile menu animation.
-  useGSAP(
-    () => {
-      const menu = menuRef.current;
+  // Mobile menu animation
+  useEffect(() => {
+    const menu = menuRef.current;
 
-      if (!menu || window.innerWidth > 768) return;
+    if (!menu) return;
 
-      menuTimeline.current?.kill();
+    menuTimeline.current?.kill();
 
-      if (menuOpen) {
-        menuTimeline.current = gsap.timeline({
-          defaults: {
-            ease: "power2.out",
-            duration: 0.32,
-          },
+    const links = menu.querySelectorAll(".navbar_mobile-link");
+
+    if (initialMenuRender.current) {
+      initialMenuRender.current = false;
+
+      gsap.set(menu, {
+        height: 0,
+        autoAlpha: 0,
+        visibility: "hidden",
+        pointerEvents: "none",
+      });
+
+      return;
+    }
+
+    if (window.innerWidth > 768) {
+      gsap.set(menu, {
+        clearProps: "all",
+      });
+      return;
+    }
+
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (menuOpen) {
+      gsap.set(menu, {
+        visibility: "visible",
+        pointerEvents: "auto",
+      });
+
+      if (reduceMotion) {
+        gsap.set(menu, {
+          height: "auto",
+          autoAlpha: 1,
         });
 
-        menuTimeline.current
-          .set(menu, {
-            visibility: "visible",
-            pointerEvents: "auto",
-          })
-          .fromTo(
-            menu,
-            {
-              height: 0,
-              autoAlpha: 0,
-            },
-            {
-              height: "auto",
-              autoAlpha: 1,
-            }
-          )
-          .fromTo(
-            ".navbar_mobile-link",
-            {
-              y: -8,
-              autoAlpha: 0,
-            },
-            {
-              y: 0,
-              autoAlpha: 1,
-              stagger: 0.045,
-              duration: 0.22,
-            },
-            "-=0.12"
-          );
-      } else {
-        menuTimeline.current = gsap.timeline({
-          defaults: {
-            ease: "power2.inOut",
-            duration: 0.28,
-          },
-          onComplete: () => {
-            gsap.set(menu, {
-              height: 0,
-              autoAlpha: 0,
-              visibility: "hidden",
-              pointerEvents: "none",
-            });
-
-            // Scroll only after the mobile menu has closed.
-            if (pendingNavigation.current) {
-              const target = pendingNavigation.current;
-              pendingNavigation.current = null;
-
-              scrollToSection(target);
-            }
-          },
+        gsap.set(links, {
+          y: 0,
+          autoAlpha: 1,
         });
 
-        menuTimeline.current.to(menu, {
-          height: 0,
-          autoAlpha: 0,
-        });
+        return;
       }
 
-      return () => {
-        menuTimeline.current?.kill();
-      };
-    },
-    {
-      scope: navRef,
-      dependencies: [menuOpen],
-      revertOnUpdate: true,
-    }
-  );
+      menuTimeline.current = gsap.timeline({
+        defaults: { ease: "power2.out" },
+      });
 
-  // Scroll state and keyboard handling.
+      menuTimeline.current
+        .fromTo(
+          menu,
+          { height: 0, autoAlpha: 0 },
+          {
+            height: "auto",
+            autoAlpha: 1,
+            duration: 0.32,
+          }
+        )
+        .fromTo(
+          links,
+          { y: -8, autoAlpha: 0 },
+          {
+            y: 0,
+            autoAlpha: 1,
+            stagger: 0.045,
+            duration: 0.22,
+          },
+          "-=0.12"
+        );
+    } else {
+      if (reduceMotion) {
+        gsap.set(menu, {
+          height: 0,
+          autoAlpha: 0,
+          visibility: "hidden",
+          pointerEvents: "none",
+        });
+
+        return;
+      }
+
+      menuTimeline.current = gsap.timeline({
+        onComplete: () => {
+          gsap.set(menu, {
+            height: 0,
+            autoAlpha: 0,
+            visibility: "hidden",
+            pointerEvents: "none",
+          });
+        },
+      });
+
+      menuTimeline.current.to(menu, {
+        height: 0,
+        autoAlpha: 0,
+        duration: 0.28,
+        ease: "power2.inOut",
+      });
+    }
+
+    return () => {
+      menuTimeline.current?.kill();
+    };
+  }, [menuOpen]);
+
+  // Scroll and keyboard events
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 24);
@@ -156,7 +180,6 @@ export default function Navbar({ name }) {
 
     const onKeyDown = (event) => {
       if (event.key === "Escape") {
-        pendingNavigation.current = null;
         setMenuOpen(false);
       }
     };
@@ -175,31 +198,23 @@ export default function Navbar({ name }) {
     };
   }, []);
 
-  // Close the mobile menu when switching to desktop.
+  // Close mobile menu when resizing to desktop
   useEffect(() => {
-    const onResize = () => {
+    const closeOnDesktop = () => {
       if (window.innerWidth > 768) {
-        pendingNavigation.current = null;
         setMenuOpen(false);
       }
     };
 
-    window.addEventListener("resize", onResize);
+    window.addEventListener("resize", closeOnDesktop);
 
     return () => {
-      window.removeEventListener("resize", onResize);
+      window.removeEventListener("resize", closeOnDesktop);
     };
   }, []);
 
-  // Navigation handler.
-  const handleNavigation = (id) => {
-    if (window.innerWidth <= 768 && menuOpen) {
-      pendingNavigation.current = id;
-      setMenuOpen(false);
-      return;
-    }
-
-    pendingNavigation.current = null;
+  // Navigation handler
+  const scrollTo = (id) => {
     setMenuOpen(false);
     scrollToSection(id);
   };
@@ -216,7 +231,7 @@ export default function Navbar({ name }) {
           className="navbar_logo"
           onClick={(event) => {
             event.preventDefault();
-            handleNavigation("home");
+            scrollTo("home");
           }}
           aria-label={`${name} — back to top`}
         >
@@ -231,9 +246,7 @@ export default function Navbar({ name }) {
           className={`navbar_hamburger${menuOpen ? " is-open" : ""}`}
           onClick={() => setMenuOpen((open) => !open)}
           aria-label={
-            menuOpen
-              ? "Close navigation menu"
-              : "Open navigation menu"
+            menuOpen ? "Close navigation menu" : "Open navigation menu"
           }
           aria-expanded={menuOpen}
           aria-controls="primary-navigation"
@@ -258,7 +271,7 @@ export default function Navbar({ name }) {
                 }
                 onClick={(event) => {
                   event.preventDefault();
-                  handleNavigation(href);
+                  scrollTo(href);
                 }}
               >
                 {label}
@@ -272,7 +285,7 @@ export default function Navbar({ name }) {
               className="navbar_contact-link"
               onClick={(event) => {
                 event.preventDefault();
-                handleNavigation("contact");
+                scrollTo("contact");
               }}
             >
               Let's talk <span aria-hidden="true">↗</span>

@@ -584,3 +584,42 @@ body {
 .cursor-follower.is-hovering {
   background: rgba(59, 130, 246, .14);
 }
+
+/* ========================================
+   Responsive anchor navigation
+======================================== */
+
+html {
+  scroll-behavior: auto;
+  scroll-padding-top: 6rem;
+}
+
+section[id] {
+  scroll-margin-top: 6rem;
+}
+
+@media (max-width: 768px) {
+  html {
+    scroll-padding-top: 5rem;
+  }
+
+  section[id] {
+    scroll-margin-top: 5rem;
+  }
+}
+
+/* Prevent horizontal overflow without
+   interfering with vertical scrolling */
+
+body {
+  overflow-x: clip;
+}
+
+/* Mobile touch interaction */
+
+.navbar,
+.navbar_links,
+.navbar_links a,
+.navbar_hamburger {
+  -webkit-tap-highlight-color: transparent;
+}
