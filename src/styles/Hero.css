@@ -7,7 +7,6 @@
   padding: 9rem clamp(1.5rem, 6vw, 5rem) 5rem;
   max-width: 1440px;
   margin: 0 auto;
-  position: relative;
   overflow: hidden;
 }
 
@@ -15,7 +14,7 @@
   content: '';
   position: absolute;
   width: 440px;
-  height: 440px;
+  height: 500px;
   top: -190px;
   right: -130px;
   border-radius: 50%;
