@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -14,21 +15,30 @@ const NAV_LINKS = [
   { href: "education", label: "Education" },
   { href: "projects", label: "Projects" },
 ];
-const SECTION_IDS = [...NAV_LINKS.map(({ href }) => href), "contact"];
+
+const SECTION_IDS = [
+  ...NAV_LINKS.map(({ href }) => href),
+  "contact",
+];
 
 export default function Navbar({ name }) {
   const navRef = useRef(null);
   const menuRef = useRef(null);
   const menuTimeline = useRef(null);
+  const pendingNavigation = useRef(null);
+
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
   const active = useActiveSection(SECTION_IDS);
 
+  // Navbar entrance animation.
   useGSAP(
     () => {
       const reduceMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
       ).matches;
+
       if (reduceMotion) return;
 
       gsap.from(".navbar_inner", {
@@ -50,68 +60,148 @@ export default function Navbar({ name }) {
     { scope: navRef }
   );
 
+  // Mobile menu animation.
   useGSAP(
     () => {
       const menu = menuRef.current;
+
       if (!menu || window.innerWidth > 768) return;
 
       menuTimeline.current?.kill();
-      menuTimeline.current = gsap.timeline({
-        defaults: { ease: "power2.out", duration: 0.32 },
-      });
 
       if (menuOpen) {
+        menuTimeline.current = gsap.timeline({
+          defaults: {
+            ease: "power2.out",
+            duration: 0.32,
+          },
+        });
+
         menuTimeline.current
-          .set(menu, { visibility: "visible", pointerEvents: "auto" })
+          .set(menu, {
+            visibility: "visible",
+            pointerEvents: "auto",
+          })
           .fromTo(
             menu,
-            { height: 0, autoAlpha: 0 },
-            { height: "auto", autoAlpha: 1 }
+            {
+              height: 0,
+              autoAlpha: 0,
+            },
+            {
+              height: "auto",
+              autoAlpha: 1,
+            }
           )
           .fromTo(
             ".navbar_mobile-link",
-            { y: -8, autoAlpha: 0 },
-            { y: 0, autoAlpha: 1, stagger: 0.045, duration: 0.22 },
+            {
+              y: -8,
+              autoAlpha: 0,
+            },
+            {
+              y: 0,
+              autoAlpha: 1,
+              stagger: 0.045,
+              duration: 0.22,
+            },
             "-=0.12"
           );
       } else {
+        menuTimeline.current = gsap.timeline({
+          defaults: {
+            ease: "power2.inOut",
+            duration: 0.28,
+          },
+          onComplete: () => {
+            gsap.set(menu, {
+              height: 0,
+              autoAlpha: 0,
+              visibility: "hidden",
+              pointerEvents: "none",
+            });
+
+            // Scroll only after the mobile menu has closed.
+            if (pendingNavigation.current) {
+              const target = pendingNavigation.current;
+              pendingNavigation.current = null;
+
+              scrollToSection(target);
+            }
+          },
+        });
+
         menuTimeline.current.to(menu, {
           height: 0,
           autoAlpha: 0,
-          onComplete: () => {
-            gsap.set(menu, { visibility: "hidden", pointerEvents: "none" });
-          },
         });
       }
+
+      return () => {
+        menuTimeline.current?.kill();
+      };
     },
-    { scope: navRef, dependencies: [menuOpen], revertOnUpdate: true }
+    {
+      scope: navRef,
+      dependencies: [menuOpen],
+      revertOnUpdate: true,
+    }
   );
 
+  // Scroll state and keyboard handling.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    const onKeyDown = (event) => {
-      if (event.key === "Escape") setMenuOpen(false);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 24);
     };
-    window.addEventListener("scroll", onScroll, { passive: true });
+
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") {
+        pendingNavigation.current = null;
+        setMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, {
+      passive: true,
+    });
+
     window.addEventListener("keydown", onKeyDown);
+
     onScroll();
+
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("keydown", onKeyDown);
     };
   }, []);
 
+  // Close the mobile menu when switching to desktop.
   useEffect(() => {
-    const closeOnDesktop = () => {
-      if (window.innerWidth > 768) setMenuOpen(false);
+    const onResize = () => {
+      if (window.innerWidth > 768) {
+        pendingNavigation.current = null;
+        setMenuOpen(false);
+      }
     };
-    window.addEventListener("resize", closeOnDesktop);
-    return () => window.removeEventListener("resize", closeOnDesktop);
+
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      window.removeEventListener("resize", onResize);
+    };
   }, []);
 
-  const scrollTo = (id) => {
-    scrollToSection(id);
+  // Navigation handler.
+  const handleNavigation = (id) => {
+    if (window.innerWidth <= 768 && menuOpen) {
+      pendingNavigation.current = id;
+      setMenuOpen(false);
+      return;
+    }
+
+    pendingNavigation.current = null;
     setMenuOpen(false);
+    scrollToSection(id);
   };
 
   return (
@@ -126,23 +216,31 @@ export default function Navbar({ name }) {
           className="navbar_logo"
           onClick={(event) => {
             event.preventDefault();
-            scrollTo("home");
+            handleNavigation("home");
           }}
           aria-label={`${name} — back to top`}
         >
-          <span className="navbar_monogram" aria-hidden="true">RI</span>
+          <span className="navbar_monogram" aria-hidden="true">
+            RI
+          </span>
+
           <span className="navbar_name">{name}</span>
         </a>
 
         <button
           className={`navbar_hamburger${menuOpen ? " is-open" : ""}`}
           onClick={() => setMenuOpen((open) => !open)}
-          aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-label={
+            menuOpen
+              ? "Close navigation menu"
+              : "Open navigation menu"
+          }
           aria-expanded={menuOpen}
           aria-controls="primary-navigation"
           type="button"
         >
-          <span /><span />
+          <span />
+          <span />
         </button>
 
         <ul
@@ -155,23 +253,26 @@ export default function Navbar({ name }) {
               <a
                 href={`#${href}`}
                 className={active === href ? "active" : ""}
-                aria-current={active === href ? "location" : undefined}
+                aria-current={
+                  active === href ? "location" : undefined
+                }
                 onClick={(event) => {
                   event.preventDefault();
-                  scrollTo(href);
+                  handleNavigation(href);
                 }}
               >
                 {label}
               </a>
             </li>
           ))}
+
           <li className="navbar_mobile-link navbar_contact-item">
             <a
               href="#contact"
               className="navbar_contact-link"
               onClick={(event) => {
                 event.preventDefault();
-                scrollTo("contact");
+                handleNavigation("contact");
               }}
             >
               Let's talk <span aria-hidden="true">↗</span>
