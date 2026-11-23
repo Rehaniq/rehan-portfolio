@@ -29,6 +29,7 @@ html {
   scroll-behavior: auto;
   scroll-padding-top: var(--header-offset);
   -webkit-text-size-adjust: 100%;
+  scroll-behavior: auto;
 }
 
 body {
@@ -288,6 +289,7 @@ html,
 body {
   background: #0b1120;
   color: var(--ink);
+  scroll-behavior: auto;
 }
 
 body {
