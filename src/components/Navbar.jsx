@@ -79,11 +79,15 @@ export default function Navbar({ name }) {
 
       return;
     }
-
     if (window.innerWidth > 768) {
       gsap.set(menu, {
-        clearProps: "all",
+        clearProps: "height,opacity,visibility,pointerEvents,transform",
       });
+
+      gsap.set(menu.querySelectorAll(".navbar_mobile-link"), {
+        clearProps: "transform,opacity,visibility",
+      });
+
       return;
     }
 

@@ -253,3 +253,31 @@
     transition: none !important;
   }
 }
+
+
+/* Desktop navbar visibility fix */
+
+@media (min-width: 769px) {
+  .navbar_links {
+    display: flex !important;
+    position: static;
+    height: auto !important;
+    overflow: visible !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: none !important;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .navbar_links li {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .navbar_hamburger {
+    display: none !important;
+  }
+}
